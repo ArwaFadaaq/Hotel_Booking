@@ -38,17 +38,31 @@ admin_login() {
     echo "*                                            *"
     echo "**********************************************"
     read -p "Enter your ID: " admin_id
-    read -s -p "Enter your password: " admin_password
+
+    # Prompt for password without showing characters
+    echo -n "Enter your password: "
+
+    # Turn off echoing
+    stty -echo
+
+    # Read password
+    read admin_password
+
+    # Turn echoing back on
+    stty echo
+
     echo "" # For newline after password input
     # Add your admin login logic here
     # For demonstration purposes, let's assume a fixed admin ID and password
     if [ "$admin_id" = "admin" ] && [ "$admin_password" = "admin123" ]; then
         echo "Welcome, Administrator! You're now logged in."
+        ./admin.sh
     else
         echo "Invalid ID or password. Please try again."
     fi
     read -p "Press Enter to return to main menu" enter_key
 }
+
 
 # Main function
 main() {
