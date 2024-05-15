@@ -5,7 +5,7 @@ display_menu() {
     clear
     echo "**********************************************"
     echo "*                                            *"
-    echo "*              Welcome to Our               *"
+    echo "*               Welcome to Our               *"
     echo "*             Awesome Online Shop!           *"
     echo "*                                            *"
     echo "**********************************************"
