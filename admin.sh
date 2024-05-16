@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-hi arwa
-=======
 #!/bin/bash
 
 # Initialize product ID counter outside the function
@@ -53,6 +50,25 @@ add_product() {
     
 }
 
+# Function to display available products
+display_products() {
+    clear
+    echo "**********************************************"
+    echo "*                                            *"
+    echo "*          Available Products                *"
+    echo "*                                            *"
+    echo "**********************************************"
+    
+    # Check if products.txt exists and display its contents
+    if [ -e "products.txt" ]; then
+        cat products.txt
+    else
+        echo "No products available."
+    fi
+    
+    read -p "Press Enter to return to menu" enter_key
+}
+
 # Main menu
 while true; do
 
@@ -78,4 +94,5 @@ while true; do
     esac
 done
 
->>>>>>> 9a09f61ca28f11db8b49ebd31409699045a81c73
+
+
