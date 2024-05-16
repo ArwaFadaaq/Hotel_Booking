@@ -1,5 +1,20 @@
 #!/bin/bash
-
+# Function to display products based on category 
+display_products (){
+  case $1 in
+    1) echo "Men's clothing"
+       awk -F ',' '$3 == "Men" {print $1, $2, $3, $NF}' products.txt
+       read -p "Press Enter to return to menu" enter_key
+       ;; 
+      
+    2) echo "Women's clothing"
+       awk -F ',' '$3 == "Women" {print $1, $2, $3, $NF}' products.txt
+       read -p "Press Enter to return to menu" enter_key
+       ;; 
+    *) echo "Invalid choice!"  
+       ;;
+  esac
+}
 
 # Main loop
 while true; do
@@ -37,16 +52,4 @@ done
 
 
 
-# Function to display products based on category 
- display_products (){
-  case $1 in
-    1) echo "Women's clothing"
-      # Add code to display women's clothing products (replace with your logic)
-      ;;  # Use double semicolons (;) to terminate case statements 
-    2) echo "Men's clothing"
-      # Add code to display men's clothing products (replace with your logic)
-      ;;  # Use double semicolons (;) to terminate case statements 
-    *) echo "Invalid choice!"  # Handle unexpected case inside display_products
-      ;;
-  esac
-}
+
