@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-hi arwa
-=======
 #!/bin/bash
 
 # Initialize product ID counter outside the function
@@ -53,6 +50,71 @@ add_product() {
     
 }
 
+# Function to delete a product
+delete_product(){
+    clear
+    echo "**********************************************"
+    echo "*                                            *"
+    echo "*              Delete Product                *"
+    echo "*                                            *"
+    echo "**********************************************"
+    
+    read -p "Enter product ID to delete: " product_id
+    # Check if the product exists
+    if [ $(grep -c "$product_id" products.txt) -eq 1 ]; then
+    
+    	# Display product details
+        echo "====Product Details===="
+        product_details=$(grep "^$product_id," products.txt)
+        
+        echo "Product Name: $(echo "$product_details" | cut -d ',' -f 2)"
+        echo "Category: $(echo "$product_details" | cut -d ',' -f 3)"
+        echo "Quantity (S): $(echo "$product_details" | cut -d ',' -f 4)"
+        echo "Quantity (M): $(echo "$product_details" | cut -d ',' -f 5)"
+        echo "Quantity (L): $(echo "$product_details" | cut -d ',' -f 6)"
+        echo "Quantity (XL): $(echo "$product_details" | cut -d ',' -f 7)"
+        echo "Price (SAR): $(echo "$product_details" | cut -d ',' -f 8)"
+        
+        # Ask for confirmation
+        read -p "Are you sure you want to delete this product? (y/n): " confirm
+        if [ "$confirm" = "y" ]; then
+            # Delete product from the file using sed
+            sed -i "/$product_id/d" products.txt
+            echo "Product $product_id deleted successfully."
+        else
+            echo "Deletion canceled."
+        fi
+    else
+        echo "Product $product_id not found."
+    fi
+    
+    read -p "Press Enter to return to menu" enter_key
+}
+
+# Function to display products in the warehouse
+display_products() {
+    clear
+    echo "**********************************************"
+    echo "*                                            *"
+    echo "*        Products in the warehouse           *"
+    echo "*                                            *"
+    echo "**********************************************"
+    
+    # Function to print table row
+    print_row() {
+        printf "| %-10s | %-15s | %-10s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
+    }
+
+    # Print table header
+    printf "| %-10s | %-15s | %-10s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "Prodect ID" "Prodect Name" "Category" "Quantity (S)" "Quantity (M)" "Quantity (L)" "Quantity (XL)" "Price (SAR)"
+    printf "|------------|-----------------|------------|--------------|--------------|--------------|--------------|------------|\n"
+
+    # Read data from file and print data rows
+    while IFS=',' read -r id name category qty_s qty_m qty_l qty_xl price; do
+        print_row "$id" "$name" "$category" "$qty_s" "$qty_m" "$qty_l" "$qty_xl" "$price"
+    done < products.txt
+}
+
 # Main menu
 while true; do
 
@@ -78,4 +140,3 @@ while true; do
     esac
 done
 
->>>>>>> 9a09f61ca28f11db8b49ebd31409699045a81c73

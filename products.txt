@@ -1,5 +1,5 @@
 Prodect ID,Prodect Name,Category,Quantity (S),Quantity (M),Quantity (L),Quantity (XL),Price (SAR)
-001,Shirt.Men,10,15,20,25,30
+001,Shirt,Men,10,15,20,25,30
 002,Dress,Women,15,20,25,20,50
 005,Jacket,Men,12,18,22,10,60
 006,T-shirt,Men,10,5,6,0,20

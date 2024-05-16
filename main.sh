@@ -56,7 +56,7 @@ admin_login() {
     # For demonstration purposes, let's assume a fixed admin ID and password
     if [ "$admin_id" = "admin" ] && [ "$admin_password" = "admin123" ]; then
         echo "Welcome, Administrator! You're now logged in."
-        ./admin.sh
+        sh admin.sh
     else
         echo "Invalid ID or password. Please try again."
     fi
