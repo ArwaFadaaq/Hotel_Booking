@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialize product ID counter outside the function
-id_counter=5
+id_counter=8
 
 # Function to add a new product
 add_product() {
@@ -22,7 +22,7 @@ add_product() {
     
     while true; do
     
-    	printf "Product Category:\n1. Men\n2. Women\nEnter the number corresponding to the category: "
+    	printf "Product Category:\n1. Men\n2. Women\n3. Unisex\nEnter the number corresponding to the category: "
     	read choice
     	
     	# Validate category choice
@@ -31,6 +31,9 @@ add_product() {
     		break
     	elif [ $choice -eq 2 ] 2>/dev/null;then
     		category="Women"
+    		break
+    	elif [ $choice -eq 3 ] 2>/dev/null;then
+    		category="Unisex"
     		break
     	else
     		echo "Invalid choice. Please select a valid category."
@@ -65,7 +68,7 @@ delete_product(){
     
     	# Display product details
         echo "====Product Details===="
-        product_details=$(grep "^$product_id," products.txt)
+        product_details=$(grep "$product_id" products.txt)
         
         echo "Product Name: $(echo "$product_details" | cut -d ',' -f 2)"
         echo "Category: $(echo "$product_details" | cut -d ',' -f 3)"
@@ -87,10 +90,10 @@ delete_product(){
     else
         echo "Product $product_id not found."
     fi
-    
     read -p "Press Enter to return to menu" enter_key
+    
 }
-
+  
 # Function to display products in the warehouse
 display_products() {
     clear
@@ -100,20 +103,17 @@ display_products() {
     echo "*                                            *"
     echo "**********************************************"
     
-    # Function to print table row
-    print_row() {
-        printf "| %-10s | %-15s | %-10s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
-    }
-
     # Print table header
-    printf "| %-10s | %-15s | %-10s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "Prodect ID" "Prodect Name" "Category" "Quantity (S)" "Quantity (M)" "Quantity (L)" "Quantity (XL)" "Price (SAR)"
-    printf "|------------|-----------------|------------|--------------|--------------|--------------|--------------|------------|\n"
+    printf "| %-10s | %-15s | %-7s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "Product ID" "Product Name"       "Category" "Quantity (S)" "Quantity (M)" "Quantity (L)" "Quantity (XL)" "Price (SAR)"
+    printf "|------------|-----------------|----------|--------------|--------------|--------------|---------------|-------------|\n"
 
     # Read data from file and print data rows
     while IFS=',' read -r id name category qty_s qty_m qty_l qty_xl price; do
-        print_row "$id" "$name" "$category" "$qty_s" "$qty_m" "$qty_l" "$qty_xl" "$price"
+        printf "| %-10s | %-15s | %-8s | %-12s | %-12s | %-12s | %-13s | %-11s |\n" "$id" "$name" "$category" "$qty_s" "$qty_m" "$qty_l" "$qty_xl" "$price"
     done < products.txt
-}
+
+    read -p "Press Enter to return to menu" enter_key
+}      
 
 # Main menu
 while true; do
@@ -139,4 +139,3 @@ while true; do
         *) echo "Invalid choice. Please try again." ;; # Display error message for invalid choices
     esac
 done
-
