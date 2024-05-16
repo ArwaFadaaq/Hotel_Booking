@@ -104,7 +104,7 @@ display_products() {
     echo "**********************************************"
     
     # Print table header
-    printf "| %-10s | %-15s | %-7s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "Product ID" "Product Name"       "Category" "Quantity (S)" "Quantity (M)" "Quantity (L)" "Quantity (XL)" "Price (SAR)"
+    printf "| %-10s | %-15s | %-7s | %-12s | %-12s | %-12s | %-12s | %-10s |\n" "Product ID" "Product Name" "Category" "Quantity (S)" "Quantity (M)" "Quantity (L)" "Quantity (XL)" "Price (SAR)"
     printf "|------------|-----------------|----------|--------------|--------------|--------------|---------------|-------------|\n"
 
     # Read data from file and print data rows
