@@ -70,8 +70,7 @@ add_to_basket() {
       price=$(awk -F ',' -v id="$product_id" '$1 == id {print $8}' products.txt)
       
       # Add the product ID, name, category, size, and price to the "Basket" file
-      echo "$product_id ,$product_name ,$category ,$size ,$price" >> Basket.txt
-
+      printf "%-10s ,%-10s ,%-10s,%-10s,%-10s\n" "$product_id" "$product_name" "$category" "$size" "$price" >> Basket.txt
       echo "Product with ID $product_id (Size: $size) added to Basket."
       break  # Exit the loop after successfully adding the product
     else
@@ -97,25 +96,55 @@ delete_from_basket() {
     read -p "Enter the ID of the product you want to remove: " product_id
 
     # Check if the product ID exists in the basket
-    if grep -q "^$product_id" Basket.txt; then
-      # Remove the line associated with the product ID from Basket.txt
-      sed -i "/^$product_id,/d" Basket.txt
-      echo "Product with ID $product_id removed from the basket."
-
-      # Prompt if the user wants to delete more products
+    if grep -q "^$product_id," Basket.txt; then
+      # Ask for the size of the product to remove
       while true; do
-        read -p "Do you want to delete more products? (y/n): " delete_more
-        case $delete_more in
-          [Yy]) break ;;
-          [Nn]) break 2;;
-          *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+        echo "Select the size of the product to remove:"
+        echo "1) Small"
+        echo "2) Medium"
+        echo "3) Large"
+        echo "4) XLarge"
+        read -p "Enter your choice (1-4): " size_choice
+        
+        case $size_choice in
+          1) size="Small"; break ;;
+          2) size="Medium"; break ;;
+          3) size="Large"; break ;;
+          4) size="XLarge"; break ;;
+          *) echo "Invalid choice! Please enter a number between 1 and 4." ;;
         esac
       done
+
+    # Check if the product with the specified ID and size exists in the basket
+      if awk -F ', ' -v id="$product_id" -v size="$size" '$1 == id && $4 == size' Basket.txt; then
+        # Remove the line associated with the product ID and size from Basket.txt
+        sed -i "/^$product_id ,.* ,.* , $size ,/d" Basket.txt
+        echo "Product with ID $product_id and size $size removed from the basket."
+
+        # Check if there are remaining products in the basket
+        if [ $(awk 'NR > 1' Basket.txt | wc -l) -gt 0 ]; then
+          while true; do
+            read -p "Do you want to delete more products? (y/n): " delete_more
+            case $delete_more in
+              [Yy]) break ;;
+              [Nn]) break 2 ;;
+              *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+            esac
+          done
+        else
+          echo "No more products in the basket."
+          break
+        fi
+      else
+        echo "Product with ID $product_id and size $size not found in the basket!"
+      fi
     else
       echo "Product ID not found in the basket! Please enter a valid ID."
     fi
   done
 }
+  printf "%-10s ,%-10s ,%-10s ,%-10s,%-10s\n" "Product ID" "Product Name" "Category" "Size" "Price(SAR)" > Basket.txt
+
 # Main loop
 while true; do
   # Display clothing options
@@ -214,12 +243,14 @@ while true; do
         ;;
       3) 
         delete_from_basket
+        echo "****Order confirmed. Thank you for shopping with us!***"
         display_basket
-        exit
+        rm Basket.txt
+        exit 0
         ;;
       4) 
         echo "Exit"
-        
+        rm Basket.txt
         exit 0
         ;;
     esac
