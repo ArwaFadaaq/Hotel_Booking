@@ -3,7 +3,11 @@
 display_products (){
   case $1 in
       1) clear
+<<<<<<< HEAD
          echo "**********************************************"  
+=======
+         echo "**********************************************"
+>>>>>>> 66352043dead082158dbb88debe04f3da92aee5e
          echo "*                                            *"
          echo "*                All products                *"
          echo "*                                            *"
@@ -14,6 +18,7 @@ display_products (){
          echo "*                                            *"
          echo "*               Men's clothing               *"
          echo "*                                            *"
+<<<<<<< HEAD
          echo "**********************************************"  
          awk -F ',' -v OFS=', ' '$3 == "Men" {print $1, $2, $3, $NF}' products.txt ;; 
       3) clear
@@ -22,6 +27,16 @@ display_products (){
          echo "*              Women's clothing              *"
          echo "*                                            *"
          echo "**********************************************"   
+=======
+         echo "**********************************************"   
+         awk -F ',' -v OFS=', ' '$3 == "Men" {print $1, $2, $3, $NF}' products.txt ;; 
+      3) clear
+         echo "**********************************************"  
+         echo "*                                            *"
+         echo "*              Women's clothing              *"
+         echo "*                                            *"
+         echo "**********************************************"  
+>>>>>>> 66352043dead082158dbb88debe04f3da92aee5e
          awk -F ',' -v OFS=', ' '$3 == "Women" {print $1, $2, $3, $NF}' products.txt ;;
       4) clear
          echo "**********************************************"  
@@ -172,7 +187,11 @@ basket_options() {
   
     clear
     echo " "
+<<<<<<< HEAD
     echo "**********************************************"  
+=======
+    echo "**********************************************" 
+>>>>>>> 66352043dead082158dbb88debe04f3da92aee5e
     echo "*                                            *" 
     echo "*              Basket Options                *"
     echo "*                                            *"
