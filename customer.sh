@@ -198,7 +198,7 @@ display_basket(){
 
 # Function for basket options
 basket_options() {
-  display_basket
+  
   while true; do
   
     clear
@@ -261,6 +261,6 @@ while true; do
         *) echo "Invalid choice! Please enter a number between 1 and 5."
            sleep 2 ;; # Handle invalid input
   esac
- 
+ display_basket
   basket_options
 done
