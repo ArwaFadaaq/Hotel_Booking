@@ -53,7 +53,7 @@ display_products () {
       awk -F ',' -v OFS=', ' '$3 == "Unisex" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
       ;;
     *)  # Invalid choice
-      echo "Invalid choice!"
+      echo -e "\e[91mInvalid choice.\e[0m"
       ;;
   esac
 }
@@ -93,7 +93,7 @@ add_to_basket() {
           2) size="M"; qty_column=5; break ;;  # Medium
           3) size="L"; qty_column=6; break ;;  # Large
           4) size="XL"; qty_column=7; break ;; # XLarge
-          *) echo "Invalid choice! Please enter a number between 1 and 4." 
+          *) echo -e "\e[91mInvalid choice! Please enter a number between 1 and 4.\e[0m"
              continue ;; # Invalid size choice
         esac
       done
@@ -115,10 +115,10 @@ add_to_basket() {
         echo "$product_id,$product_name,$category,$size,$price" >> Basket.txt
         echo "Product with ID $product_id (Size: $size) added to Basket."
       else
-        echo "Out of stock for $size size of this product."
+        echo -e "\e[91mOut of stock for $size size of this product.\e[0m"
       fi
     else
-      echo "Invalid product ID or category! Please enter a valid ID from the specified category."
+      echo -e "\e[91mInvalid product ID or category! Please enter a valid ID from the specified category.\e[0m"
     fi
 
     # Ask the user if they want to buy other products
@@ -134,7 +134,7 @@ add_to_basket() {
             read -p "Press Enter to return to the customer menu" enter_key
             customer_menu
           fi ;;
-        *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+        *) echo -e "\e[91mInvalid input! Please enter 'y' for yes or 'n' for no.\e[0m" ;;
       esac
     done
   done
@@ -162,7 +162,7 @@ delete_from_basket() {
           2) size="M"; qty_column=5; break ;;  # Medium
           3) size="L"; qty_column=6; break ;;  # Large
           4) size="XL"; qty_column=7; break ;; # XLarge
-          *) echo "Invalid choice! Please enter a number between 1 and 4." ;;
+          *) echo -e "\e[91mInvalid choice! Please enter a number between 1 and 4.\e[0m";;
         esac
       done
       
@@ -183,7 +183,7 @@ delete_from_basket() {
             case $delete_another in
               [Yy]) continue 2 ;; # #  If yes, Continue to the outer loop to delete another product
               [Nn]) return ;; # If no, exit the function
-              *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+              *) echo -e "\e[91mInvalid input! Please enter 'y' for yes or 'n' for no.\e[0m" ;;
             esac
           done
         else
@@ -192,10 +192,10 @@ delete_from_basket() {
           customer_menu
         fi
       else 
-        echo "Product with ID $product_id and size $size not found in the basket!"
+        echo -e "\e[91mProduct with ID $product_id and size $size not found in the basket.\e[0m"
       fi
     else
-      echo "Product ID not found in the basket! Please enter a valid ID."
+      echo -e "\e[91mProduct ID not found in the basket! Please enter a valid ID.\e[0m"
     fi
   done
 }
@@ -259,7 +259,7 @@ basket_options() {
         read -p "Press Enter to return to main menu" enter_key
         exit ;;
       *)  # Invalid choice
-        echo "Invalid choice! Please enter a number between 1 and 4."
+        echo -e "\e[91mInvalid choice! Please enter a number between 1 and 4.\e[0m"
         sleep 2 ;;
     esac
   done
@@ -298,7 +298,7 @@ customer_menu() {
         exit 0
         ;;
       *)  # Invalid choice
-        echo "Invalid choice! Please enter a number between 1 and 5."
+        echo -e "\e[91mInvalid choice! Please enter a number between 1 and 5.\e[0m"
         sleep 2 ;;
     esac
   done
