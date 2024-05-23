@@ -1,5 +1,6 @@
 #!/bin/bash
 # Function to display products based on category 
+# Takes one argument: the category choice
 display_products (){
   case $1 in
       1) clear
@@ -8,6 +9,7 @@ display_products (){
          echo "*                All products                *"
          echo "*                                            *"
          echo "**********************************************"  
+         # Use awk to print all products with categories "Men", "Women", or "Unisex"
          awk -F ',' -v OFS=', ' '$3 == "Men" || $3 == "Women" || $3 == "Unisex" {print $1, $2, $3, $NF}' products.txt ;; 
       2) clear
          echo "**********************************************"  
@@ -15,6 +17,7 @@ display_products (){
          echo "*               Men's clothing               *"
          echo "*                                            *"
          echo "**********************************************"  
+         # Use awk to print products with the category "Men"
          awk -F ',' -v OFS=', ' '$3 == "Men" {print $1, $2, $3, $NF}' products.txt ;; 
       3) clear
          echo "**********************************************"  
@@ -22,6 +25,7 @@ display_products (){
          echo "*              Women's clothing              *"
          echo "*                                            *"
          echo "**********************************************"  
+         # Use awk to print products with the category "Women"
          awk -F ',' -v OFS=', ' '$3 == "Women" {print $1, $2, $3, $NF}' products.txt ;;
       4) clear
          echo "**********************************************" 
@@ -29,16 +33,18 @@ display_products (){
          echo "*              Unisex clothing               *"
          echo "*                                            *"
          echo "**********************************************"
+         # Use awk to print products with the category "Unisex"
          awk -F ',' -v OFS=', ' '$3 == "Unisex" {print $1, $2, $3, $NF}' products.txt ;;
       *) echo "Invalid choice!" ;;
   esac
 }
 
+# Function to add products to the basket
 add_to_basket() {
   while true; do
+  # Prompt the user to enter the ID of the product they want to buy
     read -p "Enter the ID of the product you want to buy: " product_id
-
-    # Check if the product ID exists in the products list
+    # Check if the product ID exists in the products file
     if grep -q "^$product_id," products.txt; then
       # Ask for the size of the product
       while true; do
@@ -49,25 +55,30 @@ add_to_basket() {
         echo "4. XLarge"
         read -p "Enter your choice (1-4): " size_choice
         
+        # Determine the selected size and check its availability
         case $size_choice in
           1)
             size="Small"
-            qty=$(awk -F ',' -v id="$product_id" '$1 == id {print $4}' products.txt)
+            # Use awk to get the available quantity of the Small size with the product id
+            qty=$(awk -F ',' -v id="$product_id" '$1 == id {print $4}' products.txt) 
             ;;
           2)
             size="Medium"
+             # Use awk to get the available quantity of the Medium size with the product id
             qty=$(awk -F ',' -v id="$product_id" '$1 == id {print $5}' products.txt)
             ;;
           3)
             size="Large"
+            # Use awk to get the available quantity of the Large size with the product id
             qty=$(awk -F ',' -v id="$product_id" '$1 == id {print $6}' products.txt)
             ;;
           4)
             size="XLarge"
+            # Use awk to get the available quantity of the XLarge size with the product id
             qty=$(awk -F ',' -v id="$product_id" '$1 == id {print $7}' products.txt)
             ;;
           *)
-            echo "Invalid choice! Please enter a number between 1 and 4."
+            echo "Invalid choice! Please enter a number between 1 and 4." # Handle invalid input
             continue
             ;;
         esac
@@ -80,20 +91,20 @@ add_to_basket() {
       		price=$(awk -F ',' -v id="$product_id" '$1 == id {print $8}' products.txt)
       
       		# Add the product ID, name, category, size, and price to the "Basket" file
-      		printf "%-10s ,%-10s ,%-10s,%-10s,%-10s\n" "$product_id" "$product_name" "$category" "$size" "$price" >> Basket.txt
+      		echo "$product_id," "$product_name," "$category," "$size," "$price" >> Basket.txt
       		echo "Product with ID $product_id (Size: $size) added to Basket."
       	else
       		echo "Selected size $size is not available for this product."
         fi
         break
       done
-      
+      # Ask the user if they want to buy other products
       while true; do
         read -p "Do you want to buy other products? (y/n): " buy_more
         case $buy_more in
-          [Yy]) break ;;
-          [Nn]) return ;;
-          *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+          [Yy]) break ;; # If yes, break the inner loop and continue to add more products
+          [Nn]) return ;; # If no, exit the function
+          *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;; # Handle invalid input
         esac
       done
       
@@ -102,24 +113,7 @@ add_to_basket() {
     fi
   done
 }
-
-display_basket(){
   
-  # Calculate total price using awk
-  total_price=$(awk -F ',' '{total+=$NF} END {print total}' Basket.txt)
-  
-  # Check if total_price is a number
-  if [[ $total_price -eq $total_price ]] 2>/dev/null; then
-  echo " "
-  echo "Your basket contains the following products:"
-  cat Basket.txt
-  echo "Total Price: $total_price SAR"
-  
-  else
-   echo "*Thank you for visiting our online shopping*"
-   
-  fi
-}
 
 delete_from_basket() {
 while true; do
@@ -127,6 +121,7 @@ while true; do
 
     # Check if the product ID exists in the basket
     if grep -q "^$product_id" Basket.txt; then
+    # Ask for the size of the product to delete
         while true; do
             echo "Select the size of the product to remove:"
             echo "1) Small"
@@ -134,28 +129,30 @@ while true; do
             echo "3) Large"
             echo "4) XLarge"
             read -p "Enter your choice (1-4): " size_choice
-
+	    # Determine the selected size based on the user's choice
             case $size_choice in
-                1) size="Small"; break ;;
-                2) size="Medium"; break ;;
-                3) size="Large"; break ;;
-                4) size="XLarge"; break ;;
-                *) echo "Invalid choice! Please enter a number between 1 and 4." ;;
+                1) size="Small"; break ;; # Set size to Small and exit loop
+                2) size="Medium"; break ;; # Set size to Medium and exit loop
+                3) size="Large"; break ;; # Set size to Large and exit loop
+                4) size="XLarge"; break ;; # Set size to XLarge and exit loop
+                *) echo "Invalid choice! Please enter a number between 1 and 4." ;; # Handle invalid input
             esac
         done
-
+	# Check if the product with the specified size exists in the basket
         if grep -q "^$product_id.*$size" Basket.txt; then
+        # delete the product with the specified size from the basket
             sed -i "/^$product_id/ { /$size/ d }" Basket.txt 
             echo "Product with ID $product_id (Size: $size) removed from the basket."
 
             # Check if the basket has more than one line
-            if [ "$(wc -l < Basket.txt)" -gt 1 ]; then
+            if [ "$(wc -l < Basket.txt)" -gt 0 ]; then
                 while true; do
+                # Ask if the user wants to delete another product
                     read -p "Do you want to delete another product? (y/n): " delete_another
                     case $delete_another in
-                        [Yy]) continue 2 ;;
-                        [Nn]) exit ;;
-                        *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+                        [Yy]) continue 2 ;; #  If yes, Continue to the outer loop to delete another product
+                        [Nn]) return ;; # If no, exit the function
+                        *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;; # Handle invalid input
                     esac
                 done
             else
@@ -170,8 +167,38 @@ while true; do
     fi
 done
 }
+
+
+display_basket(){
+  
+  # Calculate total price using awk
+  total_price=$(awk -F ',' '{total+=$NF} END {print total}' Basket.txt)
+  
+  # Check if total_price is a number
+  if [[ $total_price -eq $total_price ]] 2>/dev/null; then
+  echo " "
+  
+  echo "Your basket contains the following products:"
+     # Print table header
+        printf "| %-10s | %-15s | %-10s | %-12s | %-10s |\n" "Product ID" "Product Name" "Category" "Size" "Price (SAR)"
+        printf "|------------|-----------------|------------|--------------|-------------|\n"
+
+        # Read data from file and print data rows
+        while IFS=',' read -r id name category size price; do
+            printf "| %-10s | %-15s | %-10s | %-12s | %-11s |\n" "$id" "$name" "$category" "$size" "$price"
+        done < Basket.txt
+  
+  echo "Total Price: $total_price SAR"
+  
+  else
+   echo "*Thank you for visiting our online shopping*"
+   
+  fi
+}
+
 # Function for basket options
 basket_options() {
+  display_basket
   while true; do
   
     clear
@@ -190,29 +217,30 @@ basket_options() {
     case $basket_option in
       1) 
         echo "Order confirmed. Thank you for shopping with us!"
-        display_basket
-        rm Basket.txt
+        display_basket # Display th basket
+        rm Basket.txt # Remove the basket file and exit the script
         exit ;;
       2) 
-        add_to_basket ;;
+        add_to_basket ;; # Call the function to add more products to the basket
       3) 
-        delete_from_basket ;;
-      4) 
+        delete_from_basket ;; # Call the function to delete a product from the basket
+      4)
         echo "Exiting."
-        rm Basket.txt
+        rm Basket.txt # Remove the basket file and exit the script
         exit ;;
       *) echo "Invalid choice! Please enter a number between 1 and 4."
-         sleep 2 ;; # Display error message for invalid choices
+         sleep 2 ;; # Handle invalid input
     esac
   done
 }
+ 
 
- printf "%-10s ,%-10s ,%-10s ,%-10s,%-10s\n" "Product ID" "Product Name" "Category" "Size" "Price(SAR)" > Basket.txt
 
 # Main loop
 while true; do
-  # Display clothing options
+  # Clear the screen and display the basket options menu
   clear
+   # Display clothing options 
   echo "**********************************************"  
   echo "*                                            *"
   echo "*                Customer Menu               *"
@@ -228,13 +256,11 @@ while true; do
 
   case $choice in
   	1|2|3|4) display_products "$choice"
-           add_to_basket ;;
+           add_to_basket  ;; #Call the function to add products to the basket
         5) exit 0 ;; # Exit the script
         *) echo "Invalid choice! Please enter a number between 1 and 5."
-           sleep 2 ;; # Display error message for invalid choices
+           sleep 2 ;; # Handle invalid input
   esac
  
-  display_basket
   basket_options
-  
 done
