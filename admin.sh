@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialize product ID counter outside the function
-id_counter=8
+id_counter=9
 
 # Function to add a new product
 add_product() {
@@ -17,44 +17,48 @@ add_product() {
     # Increment product ID counter
     id_counter=$((id_counter + 1))
     id=$(printf "%03d" $id_counter)
-        	
+    
+    # Prompt for product details
     read -p "Product Name: " name
+    printf "Product Category:\n1. Men\n2. Women\n3. Unisex\n"
     
     while true; do
-    
-    	printf "Product Category:\n1. Men\n2. Women\n3. Unisex\nEnter the number corresponding to the category: "
-    	read choice
-    	
-    	# Validate category choice
-    	if [ $choice -eq 1 ] 2>/dev/null;then
-    		category="Men"
-    		break
-    	elif [ $choice -eq 2 ] 2>/dev/null;then
-    		category="Women"
-    		break
-    	elif [ $choice -eq 3 ] 2>/dev/null;then
-    		category="Unisex"
-    		break
-    	else
-    		echo "Invalid choice. Please select a valid category."
-    	fi
+        read -p "Enter the number corresponding to the category: " choice
+        # Validate category choice
+        case $choice in
+            1)
+                category="Men"
+                break
+                ;;
+            2)
+                category="Women"
+                break
+                ;;
+            3)
+                category="Unisex"
+                break
+                ;;
+            *)
+                echo "Invalid choice. Please select a valid category."
+                ;;
+        esac
     done
     
+    # Prompt for product quantities and price
     read -p "Quantity (S): " quantity_s
     read -p "Quantity (M): " quantity_m
     read -p "Quantity (L): " quantity_l
     read -p "Quantity (XL): " quantity_xl
     read -p "Price (SAR): " price
     
-    # Concatenate details with commas and add it to product.txt file
+    # Concatenate details with commas and add it to products.txt file
     echo "$id,$name,$category,$quantity_s,$quantity_m,$quantity_l,$quantity_xl,$price" >> products.txt
     echo "Product added successfully."
     read -p "Press Enter to return to menu" enter_key
-    
 }
 
 # Function to delete a product
-delete_product(){
+delete_product() {
     clear
     echo "**********************************************"
     echo "*                                            *"
@@ -63,10 +67,10 @@ delete_product(){
     echo "**********************************************"
     
     read -p "Enter product ID to delete: " product_id
-    # Check if the product exists
-    if [ $(grep -c "$product_id" products.txt) -eq 1 ]; then
     
-    	# Display product details
+    # Check if the product exists
+    if grep -q "$product_id" products.txt; then
+        # Display product details
         echo "====Product Details===="
         product_details=$(grep "$product_id" products.txt)
         
@@ -91,15 +95,14 @@ delete_product(){
         echo "Product $product_id not found."
     fi
     read -p "Press Enter to return to menu" enter_key
-    
 }
-  
+
 # Function to display products in the warehouse
 display_products() {
     clear
     echo "**********************************************"
     echo "*                                            *"
-    echo "*        Products in the warehouse           *"
+    echo "*        Products in the Warehouse           *"
     echo "*                                            *"
     echo "**********************************************"
     
@@ -113,11 +116,10 @@ display_products() {
     done < products.txt
 
     read -p "Press Enter to return to menu" enter_key
-}      
+}
 
-# Main menu
+# Main menu loop
 while true; do
-
     clear
     echo "**********************************************"
     echo "*                                            *"

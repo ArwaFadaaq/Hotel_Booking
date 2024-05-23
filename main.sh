@@ -24,8 +24,10 @@ customer_login() {
     echo "*                                            *"
     echo "**********************************************"
 
+    # Prompt the user to enter their name
     read -p "Enter your name: " customer_name
 
+    # Loop until a valid phone number is entered
     while true; do
         read -p "Enter your phone number (10 digits): " phone_number
         if [[ $phone_number =~ ^[0-9]{10}$ ]]; then
@@ -35,8 +37,9 @@ customer_login() {
         fi
     done
 
-    echo "Welcome back, $customer_name! You're now logged in."
-    read -p "Press Enter to return to main menu" enter_key
+    # Display a welcome message after successful login
+    echo "Welcome, $customer_name! You're now logged in."
+    read -p "Press Enter to continue" enter_key
 }
 
 # Function to handle admin login
@@ -47,20 +50,13 @@ admin_login() {
     echo "*               Admin Login                  *"
     echo "*                                            *"
     echo "**********************************************"
-    read -p "Enter your ID: " admin_id
+    
+    # Prompt the user to enter their name
+    read -p "Enter your name: " admin_name
 
     # Prompt for password without showing characters
-    echo -n "Enter your password: "
-
-    # Turn off echoing
-    stty -echo
-
-    # Read password
-    read admin_password
-
-    # Turn echoing back on
-    stty echo
-
+    read -sp "Enter your password: " admin_password
+    
     echo "" # For newline after password input
 
     # Define valid admin credentials
@@ -70,36 +66,45 @@ admin_login() {
     admin_credentials["Sumaiah"]="Sumaiah123"
 
     # Check if the entered credentials are valid
-    if [[ -n "${admin_credentials[$admin_id]}" && "${admin_credentials[$admin_id]}" == "$admin_password" ]]; then
-        echo "Welcome, $admin_id! You're now logged in."
+    if [[ -n "${admin_credentials[$admin_name]}" && "${admin_credentials[$admin_name]}" == "$admin_password" ]]; then
+        # Display a welcome message after successful login
+        echo "Welcome, $admin_name! You're now logged in."
         read -p "Press Enter to continue" enter_key
-        # Here you can call another script or continue with admin tasks
-        # For example: sh admin.sh
     else
+        # Display an error message for invalid credentials and prompt to try again
         echo "Invalid ID or password. Please try again."
         read -p "Press Enter to return to admin login" enter_key
+        admin_login
     fi
 }
 
-# Main function
+# Main function to control the flow of the script
 main() {
     while true; do
+        # Display the main menu
         display_menu
 
+        # Prompt the user to enter their choice
         read -p "Enter your choice: " choice
 
         case $choice in
             1)
+                # Handle customer login and launch the customer script
                 customer_login
+                bash customer.sh
                 ;;
             2)
+                # Handle admin login and launch the admin script
                 admin_login
+                bash admin.sh
                 ;;
             3)
+                # Exit the script with a goodbye message
                 echo "Thank you for visiting. Goodbye!"
                 exit 0
                 ;;
             *)
+                # Handle invalid menu choice
                 echo "Invalid choice. Please enter a valid option."
                 read -p "Press Enter to return to main menu" enter_key
                 ;;
@@ -107,6 +112,6 @@ main() {
     done
 }
 
-# Call the main function
+# Call the main function to start the script
 main
 

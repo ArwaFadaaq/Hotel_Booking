@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-Prodect ID,Prodect Name,Category,Quantity (S),Quantity (M),Quantity (L),Quantity (XL),Price (SAR)
-001,Shirt.Men,10,15,20,25,30
-002,Dress,Women,15,20,25,20,50
-005,Jacket,Men,12,18,22,10,60
-006,T-shirt,Men,10,5,6,0,20
-006,nb,Men,3,3,2,3,3
-=======
-001,Cotton Shirt,Men,9,5,7,0,30
-002,Silk Dress,Women,15,20,25,20,50
+001,Cotton Shirt,Men,1,4,7,0,30
+002,Silk Dress,Women,14,20,25,20,50
 003,Leather Jacket,Men,12,18,22,10,60
 004,Cotton T-shirt,Men,10,5,6,0,20
 005,Red Scarf,Unisex,30,40,50,0,15
@@ -15,4 +7,3 @@ Prodect ID,Prodect Name,Category,Quantity (S),Quantity (M),Quantity (L),Quantity
 007,Green Hoodie,Unisex,25,20,15,10,35
 008,Black Boots,Unisex,10,10,10,5,70
 009,White Blouse,Women,10,13,5,9,40
->>>>>>> 25b5ca4c46c61c33b71d6a31215e81b2fd19f057
