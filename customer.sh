@@ -121,50 +121,54 @@ display_basket(){
   fi
 }
 
-
 delete_from_basket() {
-  while true; do
+while true; do
     read -p "Enter the ID of the product you want to remove: " product_id
 
     # Check if the product ID exists in the basket
     if grep -q "^$product_id" Basket.txt; then
-      while true; do
-        echo "Select the size of the product to remove:"
-        echo "1) Small"
-        echo "2) Medium"
-        echo "3) Large"
-        echo "4) XLarge"
-        read -p "Enter your choice (1-4): " size_choice
-
-        case $size_choice in
-          1) size="Small"; break ;;
-          2) size="Medium"; break ;;
-          3) size="Large"; break ;;
-          4) size="XLarge"; break ;;
-          *) echo "Invalid choice! Please enter a number between 1 and 4." ;;
-        esac
-      done
-
-     if awk "/^$product_id/ && /$size/" Basket.txt >/dev/null; then
-     
-       sed -i "/^$product_id/ { /$size/ d }" Basket.txt 
-        echo "Product with ID $product_id (Size: $size) removed from the basket."
-        
         while true; do
-          read -p "Do you want to delete another product? (y/n): " delete_another
-          case $delete_another in
-            [Yy]) continue 2 ;;
-            [Nn]) return ;;
-            *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
-          esac
+            echo "Select the size of the product to remove:"
+            echo "1) Small"
+            echo "2) Medium"
+            echo "3) Large"
+            echo "4) XLarge"
+            read -p "Enter your choice (1-4): " size_choice
+
+            case $size_choice in
+                1) size="Small"; break ;;
+                2) size="Medium"; break ;;
+                3) size="Large"; break ;;
+                4) size="XLarge"; break ;;
+                *) echo "Invalid choice! Please enter a number between 1 and 4." ;;
+            esac
         done
-      else 
-        echo "Product with ID $product_id and size $size not found in the basket!"
-      fi
+
+        if grep -q "^$product_id.*$size" Basket.txt; then
+            sed -i "/^$product_id/ { /$size/ d }" Basket.txt 
+            echo "Product with ID $product_id (Size: $size) removed from the basket."
+
+            # Check if the basket has more than one line
+            if [ "$(wc -l < Basket.txt)" -gt 1 ]; then
+                while true; do
+                    read -p "Do you want to delete another product? (y/n): " delete_another
+                    case $delete_another in
+                        [Yy]) continue 2 ;;
+                        [Nn]) exit ;;
+                        *) echo "Invalid input! Please enter 'y' for yes or 'n' for no." ;;
+                    esac
+                done
+            else
+                echo "The basket is now empty!"
+                exit
+            fi
+        else 
+            echo "Product with ID $product_id and size $size not found in the basket!"
+        fi
     else
-      echo "Product ID not found in the basket! Please enter a valid ID."
+        echo "Product ID not found in the basket! Please enter a valid ID."
     fi
-  done
+done
 }
 # Function for basket options
 basket_options() {
@@ -187,6 +191,7 @@ basket_options() {
       1) 
         echo "Order confirmed. Thank you for shopping with us!"
         display_basket
+        rm Basket.txt
         exit ;;
       2) 
         add_to_basket ;;
