@@ -39,7 +39,7 @@ add_product() {
                 break
                 ;;
             *)
-                echo "Invalid choice. Please select a valid category."
+                echo -e "\033[31mInvalid choice. Please select a valid category.\033[0m"
                 ;;
         esac
     done
@@ -82,17 +82,27 @@ delete_product() {
         echo "Quantity (XL): $(echo "$product_details" | cut -d ',' -f 7)"
         echo "Price (SAR): $(echo "$product_details" | cut -d ',' -f 8)"
         
-        # Ask for confirmation
-        read -p "Are you sure you want to delete this product? (y/n): " confirm
-        if [ "$confirm" = "y" ]; then
-            # Delete product from the file using sed
-            sed -i "/$product_id/d" products.txt
-            echo "Product $product_id deleted successfully."
-        else
-            echo "Deletion canceled."
-        fi
+        while true; do
+            # Ask for confirmation
+            read -p "Are you sure you want to delete this product? (y/n): " confirm
+            case $confirm in
+                [Yy])
+                    # Delete product from the file using sed
+                    sed -i "/$product_id/d" products.txt
+                    echo "Product $product_id deleted successfully."
+                    break
+                    ;;
+                [Nn])
+                    echo "Deletion canceled."
+                    break
+                    ;;
+                *)
+                    echo -e "\033[31mInvalid input! Please enter 'y' for yes or 'n' for no.\033[0m"
+                    ;;
+            esac
+        done
     else
-        echo "Product $product_id not found."
+        echo -e "\033[31mProduct $product_id not found.\033[0m"
     fi
     read -p "Press Enter to return to menu" enter_key
 }
@@ -138,7 +148,8 @@ while true; do
         2) delete_product ;; # Call delete_product function
         3) display_products ;; # Call display_products function
         4) exit ;; # Exit the script
-        *) echo "Invalid choice. Please try again."
-           sleep 2 ;; # Display error message for invalid choices
+        *)
+            echo -e "\033[31mInvalid choice. Please try again.\033[0m"
+            sleep 2 ;; # Display error message for invalid choices
     esac
 done
