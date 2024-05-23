@@ -261,6 +261,6 @@ while true; do
         *) echo "Invalid choice! Please enter a number between 1 and 5."
            sleep 2 ;; # Handle invalid input
   esac
- display_basket
-  basket_options
+  display_basket
+  basket_options #Call the function to display basket options after added to the basket
 done
