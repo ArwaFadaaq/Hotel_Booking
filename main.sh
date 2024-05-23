@@ -23,6 +23,7 @@ customer_login() {
     echo "*             Customer Login                 *"
     echo "*                                            *"
     echo "**********************************************"
+<<<<<<< HEAD
     read -p "Enter your name: " customer_name
 
     while true; do
@@ -36,6 +37,13 @@ customer_login() {
 
     echo "Welcome back, $customer_name! You're now logged in."
     read -p "Press Enter to return to main menu" enter_key
+=======
+    read -p "Enter your phone number: " phone_number
+    # For demonstration purposes, any phone number is accepted
+    echo "Welcome back, dear customer! You're now logged in."
+    sleep 2
+    sh customer.sh
+>>>>>>> 25b5ca4c46c61c33b71d6a31215e81b2fd19f057
 }
 
 # Function to handle admin login
@@ -61,6 +69,7 @@ admin_login() {
     stty echo
 
     echo "" # For newline after password input
+<<<<<<< HEAD
 
     # Define valid admin credentials
     declare -A admin_credentials
@@ -71,11 +80,16 @@ admin_login() {
     # Check if the entered credentials are valid
     if [[ -n "${admin_credentials[$admin_id]}" && "${admin_credentials[$admin_id]}" == "$admin_password" ]]; then
         echo "Welcome, $admin_id! You're now logged in."
+=======
+    # Add your admin login logic here
+    # For demonstration purposes, let's assume a fixed admin ID and password
+    if [ "$admin_id" = "admin" ] && [ "$admin_password" = "admin123" ]; then
+        echo "Welcome, Administrator! You're now logged in."
+>>>>>>> 25b5ca4c46c61c33b71d6a31215e81b2fd19f057
         sh admin.sh
     else
         echo "Invalid ID or password. Please try again."
     fi
-    read -p "Press Enter to return to main menu" enter_key
 }
 
 # Main function
@@ -98,7 +112,11 @@ main() {
                 ;;
             *)
                 echo "Invalid choice. Please enter a valid option."
+<<<<<<< HEAD
                 read -p "Press Enter to return to main menu" enter_key
+=======
+                sleep 2
+>>>>>>> 25b5ca4c46c61c33b71d6a31215e81b2fd19f057
                 ;;
         esac
     done
