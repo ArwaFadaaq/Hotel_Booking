@@ -26,7 +26,8 @@ customer_login() {
     read -p "Enter your phone number: " phone_number
     # For demonstration purposes, any phone number is accepted
     echo "Welcome back, dear customer! You're now logged in."
-    read -p "Press Enter to return to main menu" enter_key
+    sleep 2
+    sh customer.sh
 }
 
 # Function to handle admin login
@@ -60,7 +61,6 @@ admin_login() {
     else
         echo "Invalid ID or password. Please try again."
     fi
-    read -p "Press Enter to return to main menu" enter_key
 }
 
 
@@ -84,6 +84,7 @@ main() {
                 ;;
             *)
                 echo "Invalid choice. Please enter a valid option."
+                sleep 2
                 ;;
         esac
     done

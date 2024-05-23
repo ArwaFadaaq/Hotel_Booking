@@ -136,6 +136,7 @@ while true; do
         2) delete_product ;; # Call delete_product function
         3) display_products ;; # Call display_products function
         4) exit ;; # Exit the script
-        *) echo "Invalid choice. Please try again." ;; # Display error message for invalid choices
+        *) echo "Invalid choice. Please try again."
+           sleep 2 ;; # Display error message for invalid choices
     esac
 done
