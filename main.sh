@@ -92,11 +92,13 @@ main() {
                 # Handle customer login and launch the customer script
                 customer_login
                 bash customer.sh
+                exit 0
                 ;;
             2)
                 # Handle admin login and launch the admin script
                 admin_login
                 bash admin.sh
+                exit 0
                 ;;
             3)
                 # Exit the script with a goodbye message

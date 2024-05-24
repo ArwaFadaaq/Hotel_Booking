@@ -119,6 +119,7 @@ add_to_basket() {
       fi
     else
       echo -e "\e[91mInvalid product ID or category! Please enter a valid ID from the specified category.\e[0m"
+      continue
     fi
 
     # Ask the user if they want to buy other products
@@ -256,7 +257,6 @@ basket_options() {
         if [ -f Basket.txt ]; then
             rm Basket.txt
         fi
-        read -p "Press Enter to return to main menu" enter_key
         exit ;;
       *)  # Invalid choice
         echo -e "\e[91mInvalid choice! Please enter a number between 1 and 4.\e[0m"
