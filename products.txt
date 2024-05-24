@@ -6,4 +6,5 @@
 006,Blue Jeans,Men,20,25,30,15,45
 007,Green Hoodie,Unisex,25,20,15,10,35
 008,Black Boots,Unisex,10,10,10,5,70
-009,White Blouse,Women,10,13,5,9,40
+009,Wool Sweater,Unisex,8,12,15,7,55
+010,White Blouse,Women,10,13,5,9,40
