@@ -72,7 +72,11 @@ admin_login() {
         read -p "Press Enter to continue" enter_key
     else
         # Display an error message for invalid credentials and prompt to try again
+<<<<<<< HEAD
         echo -e "\e[91mInvalid Username or password. Please try again.\e[0m"
+=======
+        echo -e "\e[91mInvalid ID or password. Please try again.\e[0m"
+>>>>>>> 739bd6064f88804478b3af032fb440a1d881e9e7
         read -p "Press Enter to return to admin login" enter_key
         admin_login
     fi
@@ -92,11 +96,13 @@ main() {
                 # Handle customer login and launch the customer script
                 customer_login
                 bash customer.sh
+                exit 0
                 ;;
             2)
                 # Handle admin login and launch the admin script
                 admin_login
                 bash admin.sh
+                exit 0
                 ;;
             3)
                 # Exit the script with a goodbye message
@@ -114,5 +120,5 @@ main() {
 
 # Call the main function to start the script
 main
-
+<<<<<<< HEAD
 

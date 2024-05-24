@@ -30,7 +30,7 @@ display_products () {
       ;;
     3)  # Display women's clothing
       clear
-      echo "**********************************************"  
+      echo "**********************************************" 
       echo "*                                            *"
       echo "*              Women's clothing              *"
       echo "*                                            *"
@@ -228,11 +228,11 @@ basket_options() {
   while true; do
     clear
     echo " "
-    echo "**********************************************" 
+    echo "**********************************************"
     echo "*                                            *" 
     echo "*              Basket Options                *"
     echo "*                                            *"
-    echo "**********************************************" 
+   echo "**********************************************"
     echo "  1) Confirm order"
     echo "  2) Buy more"
     echo "  3) Delete product"
@@ -244,7 +244,6 @@ basket_options() {
         echo "Order confirmed. Thank you for shopping with us!"
         display_basket
         rm Basket.txt
-        read -p "Press Enter to return to the main menu" enter_key
         exit ;;
       2)  # Buy more products
         display_products 1
@@ -252,7 +251,7 @@ basket_options() {
       3)  # Delete a product from the basket
         delete_from_basket ;;
       4)  # Exit the basket options
-        echo "*Thank you for visiting our online shopping*"
+        echo "Thank you for visiting our online shopping"
         if [ -f Basket.txt ]; then
             rm Basket.txt
         fi
@@ -269,11 +268,11 @@ basket_options() {
 customer_menu() {
   while true; do
     clear
-    echo "**********************************************"  
+    echo "**********************************************" 
     echo "*                                            *"
     echo "*                Customer Menu               *"
     echo "*                                            *"
-    echo "**********************************************"  
+    echo "**********************************************" 
     echo "Select what you want to see:"
     echo "  1) All products   "
     echo "  2) Men's  clothing"
@@ -305,5 +304,4 @@ customer_menu() {
 }
 
 # Start the script by displaying the customer menu
-customer_menu
-
+customer menu
