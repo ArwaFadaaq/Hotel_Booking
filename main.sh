@@ -33,7 +33,7 @@ customer_login() {
         if [[ $phone_number =~ ^[0-9]{10}$ ]]; then
             break
         else
-            echo "Invalid phone number. Please enter a 10-digit number."
+            echo -e "\e[91mInvalid phone number. Please enter a 10-digit number.\e[0m"
         fi
     done
 
@@ -52,7 +52,7 @@ admin_login() {
     echo "**********************************************"
     
     # Prompt the user to enter their name
-    read -p "Enter your name: " admin_name
+    read -p "Enter your Username: " admin_name
 
     # Prompt for password without showing characters
     read -sp "Enter your password: " admin_password
@@ -72,7 +72,7 @@ admin_login() {
         read -p "Press Enter to continue" enter_key
     else
         # Display an error message for invalid credentials and prompt to try again
-        echo "Invalid ID or password. Please try again."
+        echo -e "\e[91mInvalid Username or password. Please try again.\e[0m"
         read -p "Press Enter to return to admin login" enter_key
         admin_login
     fi
@@ -105,7 +105,7 @@ main() {
                 ;;
             *)
                 # Handle invalid menu choice
-                echo "Invalid choice. Please enter a valid option."
+                echo -e "\e[91mInvalid choice. Please enter a valid option.\e[0m"
                 read -p "Press Enter to return to main menu" enter_key
                 ;;
         esac
@@ -114,4 +114,5 @@ main() {
 
 # Call the main function to start the script
 main
+
 
