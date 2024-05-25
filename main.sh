@@ -118,4 +118,3 @@ main() {
 
 # Call the main function to start the script
 main
-
