@@ -304,4 +304,4 @@ customer_menu() {
 }
 
 # Start the script by displaying the customer menu
-customer menu
+customer_menu
