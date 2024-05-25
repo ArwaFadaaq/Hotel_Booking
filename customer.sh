@@ -245,7 +245,6 @@ basket_options() {
         echo "Order confirmed. Thank you for shopping with us!"
         display_basket
         rm Basket.txt
-        read -p "Press Enter to return to the main menu" enter_key
         exit ;;
       2)  # Buy more products
         display_products 1
