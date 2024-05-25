@@ -52,7 +52,7 @@ admin_login() {
     echo "**********************************************"
     
     # Prompt the user to enter their name
-    read -p "Enter your Username: " admin_name
+    read -p "Enter your name: " admin_name
 
     # Prompt for password without showing characters
     read -sp "Enter your password: " admin_password
@@ -72,11 +72,9 @@ admin_login() {
         read -p "Press Enter to continue" enter_key
     else
         # Display an error message for invalid credentials and prompt to try again
-<<<<<<< HEAD
-        echo -e "\e[91mInvalid Username or password. Please try again.\e[0m"
-=======
-        echo -e "\e[91mInvalid ID or password. Please try again.\e[0m"
->>>>>>> 739bd6064f88804478b3af032fb440a1d881e9e7
+
+        echo -e "\e[91mInvalid name or password. Please try again.\e[0m"
+
         read -p "Press Enter to return to admin login" enter_key
         admin_login
     fi
@@ -120,5 +118,4 @@ main() {
 
 # Call the main function to start the script
 main
-<<<<<<< HEAD
 
