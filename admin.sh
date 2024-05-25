@@ -5,26 +5,31 @@ id_counter=9
 
 # Function to add a new product
 add_product() {
+    # Clear the terminal screen
     clear
+    # Print the header for the add product section
     echo "**********************************************"
     echo "*                                            *"
     echo "*                Add Product                 *"
     echo "*                                            *"
     echo "**********************************************"
     
+    # Prompt user to enter product details
     echo "Enter product details:"
     
-    # Increment product ID counter
+    # Increment product ID counter to generate a unique ID for each product
     id_counter=$((id_counter + 1))
     id=$(printf "%03d" $id_counter)
     
-    # Prompt for product details
+    # Prompt for product name
     read -p "Product Name: " name
+    
+    # Display product category options
     printf "Product Category:\n1. Men\n2. Women\n3. Unisex\n"
     
+    # Loop to validate category choice
     while true; do
         read -p "Enter the number corresponding to the category: " choice
-        # Validate category choice
         case $choice in
             1)
                 category="Men"
@@ -39,23 +44,77 @@ add_product() {
                 break
                 ;;
             *)
+                # Error message for invalid category choice
                 echo -e "\033[31mInvalid choice. Please select a valid category.\033[0m"
                 ;;
         esac
     done
     
-    # Prompt for product quantities and price
-    read -p "Quantity (S): " quantity_s
-    read -p "Quantity (M): " quantity_m
-    read -p "Quantity (L): " quantity_l
-    read -p "Quantity (XL): " quantity_xl
-    read -p "Price (SAR): " price
+    # Prompting for Quantity (S) with validation
+    while true; do
+        read -p "Quantity (S): " quantity_s
+        # Validate input to ensure it's a numeric value
+        if [[ "$quantity_s" =~ ^[0-9]+$ ]]; then
+            break
+        else
+            echo -e "\033[31mInvalid input. Please enter a numeric value.\033[0m"
+        fi
+    done
+
+    # Prompting for Quantity (M) with validation
+    while true; do
+        read -p "Quantity (M): " quantity_m
+        # Validate input to ensure it's a numeric value
+        if [[ "$quantity_m" =~ ^[0-9]+$ ]]; then
+            break
+        else
+            echo -e "\033[31mInvalid input. Please enter a numeric value.\033[0m"
+        fi
+    done
+
+    # Prompting for Quantity (L) with validation
+    while true; do
+        read -p "Quantity (L): " quantity_l
+        # Validate input to ensure it's a numeric value
+        if [[ "$quantity_l" =~ ^[0-9]+$ ]]; then
+            break
+        else
+            echo -e "\033[31mInvalid input. Please enter a numeric value.\033[0m"
+        fi
+    done
+
+    # Prompting for Quantity (XL) with validation
+    while true; do
+        read -p "Quantity (XL): " quantity_xl
+        # Validate input to ensure it's a numeric value
+        if [[ "$quantity_xl" =~ ^[0-9]+$ ]]; then
+            break
+        else
+            echo -e "\033[31mInvalid input. Please enter a numeric value.\033[0m"
+        fi
+    done
+
+    # Prompting for Price with validation
+    while true; do
+        read -p "Price (SAR): " price
+        # Validate input to ensure it's a numeric value
+        if [[ "$price" =~ ^[0-9]+$ ]]; then
+            break
+        else
+            echo -e "\033[31mInvalid input. Please enter a numeric value.\033[0m"
+        fi
+    done
     
-    # Concatenate details with commas and add it to products.txt file
+    # Concatenate all product details and append to products.txt file
     echo "$id,$name,$category,$quantity_s,$quantity_m,$quantity_l,$quantity_xl,$price" >> products.txt
+    
+    # Confirmation message for successful addition
     echo "Product added successfully."
+    
+    # Pause and prompt user to press Enter to return to the menu
     read -p "Press Enter to return to menu" enter_key
 }
+
 
 # Function to delete a product
 delete_product() {
@@ -153,4 +212,3 @@ while true; do
             sleep 2 ;; # Display error message for invalid choices
     esac
 done
-
