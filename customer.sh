@@ -14,7 +14,7 @@ display_products () {
       printf "| %-10s | %-15s | %-10s | %-10s |\n" "Product ID" "Product Name" "Category" "Price (SAR)"
       printf "|------------|-----------------|------------|-------------|\n"
       # Use awk to print all products with categories "Men", "Women", or "Unisex"
-      awk -F ',' -v OFS=', ' '{printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
+      awk -F ',' '{printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
       ;;
     2)  # Display men's clothing
       clear
@@ -26,7 +26,7 @@ display_products () {
       printf "| %-10s | %-15s | %-10s | %-10s |\n" "Product ID" "Product Name" "Category" "Price (SAR)"
       printf "|------------|-----------------|------------|-------------|\n"
       # Use awk to print products with the category "Men"
-      awk -F ',' -v OFS=', ' '$3 == "Men" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
+      awk -F ',' '$3 == "Men" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
       ;;
     3)  # Display women's clothing
       clear
@@ -38,7 +38,7 @@ display_products () {
       printf "| %-10s | %-15s | %-10s | %-10s |\n" "Product ID" "Product Name" "Category" "Price (SAR)"
       printf "|------------|-----------------|------------|-------------|\n"
       # Use awk to print products with the category "Women"
-      awk -F ',' -v OFS=', ' '$3 == "Women" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
+      awk -F ',' '$3 == "Women" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
       ;;
     4)  # Display unisex clothing
       clear
@@ -50,7 +50,7 @@ display_products () {
       printf "| %-10s | %-15s | %-10s | %-10s |\n" "Product ID" "Product Name" "Category" "Price (SAR)"
       printf "|------------|-----------------|------------|-------------|\n"
       # Use awk to print products with the category "Unisex"
-      awk -F ',' -v OFS=', ' '$3 == "Unisex" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
+      awk -F ',' '$3 == "Unisex" {printf "| %-10s | %-15s | %-10s | %-11s |\n", $1, $2, $3, $NF}' products.txt
       ;;
     *)  # Invalid choice
       echo -e "\e[91mInvalid choice.\e[0m"
@@ -70,7 +70,7 @@ add_to_basket() {
       2) select_category="Men" ;;    # Men's clothing
       3) select_category="Women" ;;  # Women's clothing
       4) select_category="Unisex" ;; # Unisex clothing
-      *) select_category="Men|Women|Unisex" ;; # All categories
+      1) select_category="Men|Women|Unisex" ;; # All categories
     esac
     
     # Retrieve the category of the selected product from products.txt
@@ -104,7 +104,7 @@ add_to_basket() {
       # Check if the selected size is available for the product
       if [[ -n "$qty" && "$qty" -gt 0 ]]; then
         # Reduce the quantity of the selected product in products.txt
-        awk -F ',' -v id="$product_id" -v col="$qty_column" 'BEGIN {OFS=FS} {if ($1 == id) {$col--; print} else {print}}' products.txt > temp.txt && mv temp.txt products.txt
+        awk -F ',' -v id="$product_id" -v col="$qty_column" '{if ($1 == id) {$col--;} print}' OFS=',' products.txt > temp.txt && mv temp.txt products.txt
         
         # Extract product information from products.txt
         product_name=$(awk -F ',' -v id="$product_id" '$1 == id {print $2}' products.txt)
@@ -168,12 +168,12 @@ delete_from_basket() {
       done
       
       # Check if the product with the specified size exists in the basket
-      if grep -q "^$product_id.*$size" Basket.txt; then
+      if grep -q "^$product_id.*,$size," Basket.txt; then
         # Increase the quantity of the selected product in products.txt
         awk -F ',' -v id="$product_id" -v col="$qty_column" '{if ($1 == id) {$col++;} print}' OFS=',' products.txt > temp.txt && mv temp.txt products.txt
         
         # Remove the product from the basket
-        sed -i "/^$product_id/ { /$size/ d }" Basket.txt 
+        sed -i "/^$product_id.*,$size,/d" Basket.txt 
         echo "Product with ID $product_id (Size: $size) removed from the basket."
 
         # Check if the basket has more than one line
